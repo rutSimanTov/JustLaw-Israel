@@ -1,0 +1,381 @@
+import React, { useEffect, useState } from 'react';
+import { getAllContent, deleteContent, getAllCategories, ContentCategory } from '../services/contentServise';
+import { ContentItem } from '@base-project/shared/src/models/Content';
+import { Button } from '../components/UI/Button/button';
+import { useNavigate, Link } from 'react-router-dom';
+import { PencilLine, Trash2, Download } from 'lucide-react';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '../components/UI/tooltip';
+import Comments from '../components/Comments';
+import CategoryArticles from './FilterByCategory';
+import SearchArticles from './SearchArticles';
+
+const LoadingDots: React.FC = () => (
+    <div className="flex justify-center items-center gap-3 py-10">
+        {[0, 1, 2].map((i) => (
+            <span key={i} className="dot" style={{ animationDelay: `${i * 0.3}s` }} />
+        ))}
+        <style>{`
+      .dot {
+        width: 12px;
+        height: 12px;
+        background-color: white;
+        border-radius: 50%;
+        transform: scale(1);
+        animation: pulseScale 1.2s infinite ease-in-out;
+      }
+      @keyframes pulseScale {
+        0%, 100% {
+          transform: scale(0.8);
+          opacity: 0.3;
+        }
+        50% {
+          transform: scale(1.8);
+          opacity: 1;
+        }
+      }
+    `}</style>
+    </div>
+);
+
+const handleDownloadPdf = async (id: string, title: string) => {
+    try {
+        const response = await fetch(`http://localhost:3001/api/content/${id}/pdf`);
+        if (!response.ok) {
+            alert('Failed to download article PDF.');
+            return;
+        }
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${title}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+    } catch (err) {
+        alert('Error downloading PDF');
+        console.error(err);
+    }
+};
+
+function isAdminFromToken(): boolean {
+    try {
+        const token = localStorage.getItem('jwtToken');
+        if (!token) return false;
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.role === 'Admin';
+    } catch {
+        return false;
+    }
+}
+
+export const KnowledgeHubPage: React.FC = () => {
+    const [categories, setCategories] = useState<ContentCategory[]>([]);
+    const [contentItems, setContentItems] = useState<ContentItem[]>([]);
+    const [visibleCount, setVisibleCount] = useState(3);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [deleteCandidate, setDeleteCandidate] = useState<ContentItem | null>(null);
+    const [isAdmin, setIsAdmin] = useState(false); // מה-test1
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(['ALL']); // מה-main
+    const navigate = useNavigate();
+    const userId = localStorage.getItem("userId") || undefined;
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        loadContent();
+        loadCategories();
+    }, []);
+
+    useEffect(() => {
+        setVisibleCount(3);
+    }, [selectedCategories]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const bottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+            const filteredItems = contentItems.filter(item => {
+                if (selectedCategories.includes('ALL')) {
+                    return true;
+                }
+                if (!item.categoryid) {
+                    return false;
+                }
+                return selectedCategories.includes(item.categoryid.toString());
+            });
+
+            if (bottom && visibleCount < filteredItems.length) {
+                setVisibleCount((prev) => prev + 3);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [visibleCount, contentItems, selectedCategories]);
+
+    useEffect(() => {
+        setIsAdmin(isAdminFromToken());
+    }, []);
+
+    const loadContent = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const items = await getAllContent();
+            setContentItems(items);
+        } catch {
+            setError('Failed to load content.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const loadCategories = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const items = await getAllCategories();
+            setCategories(items);
+        } catch {
+            setError('Failed to load categories.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const confirmDelete = (item: ContentItem) => {
+        setDeleteCandidate(item);
+    };
+
+    const executeDelete = async () => {
+        if (!deleteCandidate) return;
+        const success = await deleteContent(deleteCandidate.id);
+        if (success) {
+            setContentItems((prev) => prev.filter((item) => item.id !== deleteCandidate.id));
+            setDeleteCandidate(null);
+        } else {
+            alert('Deletion failed.');
+        }
+    };
+
+    const handleSearchResults = (results: ContentItem[]) => {
+        setContentItems(results);
+        setVisibleCount(3);
+    };
+
+    if (loading) return <LoadingDots />;
+    if (error) return <p className="text-center py-4 text-destructive">{error}</p>;
+    if (contentItems.length === 0) return <p className="text-center py-4">No articles available.</p>;
+
+    return (
+        <div className="flex flex-col items-center px-4 bg-card/80 mb-20 pb-52">
+            {deleteCandidate && (
+                <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+                    <div className="bg-card border border-white/20 rounded-lg p-6 shadow-lg max-w-md w-full text-white space-y-4">
+                        <h2 className="text-xl font-bold">Delete Article</h2>
+                        <p>
+                            Are you sure you want to delete the following article?
+                            <br />
+                            <span className="font-semibold text-primary">"{deleteCandidate.title}"</span>
+                        </p>
+                        <div className="flex justify-end gap-3 mt-4">
+                            <Button variant="outline" onClick={() => setDeleteCandidate(null)}>Cancel</Button>
+                            <Button variant="destructive" onClick={executeDelete}>Delete</Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="w-full max-w-7xl mt-4 mb-2">
+                <h1 className="text-5xl font-oswald font-bold text-white text-center break-words">
+                    Knowledge Hub
+                </h1>
+            </div>
+
+            <div className="w-full max-w-7xl mb-6 flex flex-row items-center justify-center gap-0">
+                <SearchArticles onSearchResults={handleSearchResults} onClearSearch={loadContent} />
+                <CategoryArticles
+                    selectedCategories={selectedCategories}
+                    setSelectedCategories={setSelectedCategories}
+                    categories={categories}
+                />
+            </div>
+
+            <div className="w-full max-w-7xl flex justify-end mb-6">
+                <Button onClick={() => navigate('/add-content-type')} variant="default">
+                    Add Article
+                </Button>
+            </div>
+
+            {isAdmin && (
+                <div className="flex justify-end mb-4">
+                    <Link to="/admin/tags">
+                        <Button variant="secondary" className="font-bold">Tag Management</Button>
+                    </Link>
+                </div>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-6 gap-6 w-full max-w-7xl">
+                {contentItems
+                    .filter(item => {
+                        if (selectedCategories.includes('ALL')) {
+                            return true;
+                        }
+                        if (!item.categoryid) {
+                            return false;
+                        }
+                        return selectedCategories.includes(item.categoryid.toString());
+                    })
+                    .slice(0, visibleCount)
+                    .sort((a, b) => {
+                        if (!a.publishedat) return 1;
+                        if (!b.publishedat) return -1;
+                        return new Date(b.publishedat).getTime() - new Date(a.publishedat).getTime();
+                    })
+                    .map((item) => (
+                        <div
+                            key={item.id}
+                            className="border border-primary/20 rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow bg-card text-white flex flex-col sm:col-span-2 lg:col-span-2"
+                        >
+                            {item.thumbnailurl ? (
+                                <img
+                                    src={item.thumbnailurl}
+                                    alt={`Thumbnail for ${item.title}`}
+                                    className="rounded-lg mb-3 w-full h-32 object-cover"
+                                />
+                            ) : (
+                                <div className="rounded-lg mb-3 w-full h-32 bg-muted/20 flex items-center justify-center text-white/40 text-sm italic border border-dashed border-white/20">
+                                    {/* No image */}
+                                </div>
+                            )}
+
+                            <h2 className="text-xl font-semibold mb-1 text-primary break-words whitespace-pre-wrap">
+                                {item.title}
+                            </h2>
+
+                            <p className="text-sm text-gray-100 mb-2 flex-grow overflow-hidden break-words whitespace-pre-wrap line-clamp-3">
+                                {item.description}
+                            </p>
+
+                            {item.publishedat && (
+                                <p className="text-xs text-gray-300 mb-2">
+                                    Published on: {new Date(item.publishedat).toLocaleDateString()}
+                                </p>
+                            )}
+
+                            {item.categoryid && (
+                                <span style={{ width: 'fit-content' }} className="bg-primary/20 text-primary px-2 py-1 rounded-md text-xs">
+                                    {categories.find(cat => cat.id === item.categoryid)?.name}
+                                </span>
+                            )}
+
+                            {item.tags && item.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mb-2">
+                                    {item.tags.map((tag, i) => (
+                                        <span
+                                            key={i}
+                                            className="bg-white/10 text-white text-xs px-2 py-0.5 rounded-full border border-white/20"
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+
+                            {(item.externalurl || item.downloadurl) && (
+                                <a
+                                    href={item.externalurl || item.downloadurl || '#'}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-300 underline text-sm mb-2 hover:text-blue-100"
+                                >
+                                    View file / external link
+                                </a>
+                            )}
+
+                            <div className="flex justify-between items-center mt-auto rtl:flex-row-reverse gap-2">
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => navigate(`/article/${item.id}`)}
+                                                className="text-white px-3 flex items-center gap-2"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="w-4 h-4"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    strokeWidth={2}
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6m3-3h6m0 0v6m0-6L10 14"
+                                                    />
+                                                </svg>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent side="bottom">Read More</TooltipContent>
+                                    </Tooltip>
+
+                                    <div className="flex gap-2">
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => navigate(`/edit-article/${item.id}`)}
+                                                >
+                                                    <PencilLine className="w-5 h-5 text-white" />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="bottom">Edit</TooltipContent>
+                                        </Tooltip>
+
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => confirmDelete(item)}
+                                                >
+                                                    <Trash2 className="w-5 h-5 text-white" />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="bottom">Delete</TooltipContent>
+                                        </Tooltip>
+
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => handleDownloadPdf(item.id, item.title)}
+                                                >
+                                                    <Download className="w-5 h-5 text-white" />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="bottom">Download PDF</TooltipContent>
+                                        </Tooltip>
+                                    </div>
+                                </TooltipProvider>
+                            </div>
+
+                            <div style={{ marginTop: "1.5rem", borderTop: "1px solid #444", paddingTop: "0.5rem" }}>
+                                <Comments articleId={item.id} userId={userId} />
+                            </div>
+                        </div>
+                    ))}
+            </div>
+        </div>
+    );
+};

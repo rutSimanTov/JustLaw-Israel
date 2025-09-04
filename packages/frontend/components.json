@@ -1,0 +1,17 @@
+{
+  "name": "legalcore-frontend",
+  "projectType": "app",
+  "main": "src/main.tsx",
+  "components": {
+    "directory": "src/components",
+    "ui": "src/components/ui"
+  },
+  "aliases": {
+    "@": "src"
+  },
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "src/index.css"
+  },
+  "typescript": true
+}

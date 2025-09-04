@@ -1,0 +1,105 @@
+/* .editor-wrapper {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #fff;
+  direction: rtl;
+}
+
+.toolbar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.toolbar button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.toolbar button:hover {
+  color: #1976d2;
+}
+
+.editor-content {
+  min-height: 200px;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+}
+
+.emoji-picker {
+  margin-top: 0.5rem;
+} */
+
+
+
+.editor-wrapper {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #fff;
+  direction: rtl;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 9999;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.toolbar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+
+.toolbar button,
+.toolbar select,
+.toolbar input[type="color"] {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 16px;
+  padding: 0.25rem;
+}
+
+.toolbar button:hover {
+  color: #1976d2;
+}
+
+.editor-content {
+  min-height: 200px;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+  transition: all 0.3s ease-in-out;
+}
+
+.editor-preview {
+  padding: 1rem;
+  background: #f9f9f9;
+  min-height: 200px;
+  border: 1px dashed #ccc;
+  white-space: pre-wrap;
+}
+
+.emoji-picker {
+  margin-top: 0.5rem;
+}
+
+.editor-footer {
+  margin-top: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #555;
+}

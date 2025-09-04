@@ -1,0 +1,47 @@
+[
+  {
+    "id": "time",
+    "title": "Contribute Your Time",
+    "description": "Thank you for your interest in volunteering as a mentor, advisor, or contributor. Please fill out the form below.",
+    "fields": [
+      { "name": "name", "label": "Full Name", "type": "text", "required": true, "placeholder": "John Doe" },
+      { "name": "email", "label": "Email Address", "type": "email", "required": true, "placeholder": "john.doe@example.com" },
+      { "name": "expertise", "label": "Skills & Expertise", "type": "textarea", "required": true, "placeholder": "e.g., Software Development, Legal Research, Project Management" },
+      { "name": "availability", "label": "Availability", "type": "text", "required": true, "placeholder": "e.g., 5 hours per week, available on weekends" }
+    ]
+  },
+  {
+    "id": "problems",
+    "title": "Contribute Problems",
+    "description": "Help us identify legal challenges that need technological solutions. Please describe the problem below.",
+    "fields": [
+      { "name": "name", "label": "Full Name", "type": "text", "required": true, "placeholder": "Alex Reporter" },
+      { "name": "email", "label": "Email Address", "type": "email", "required": true, "placeholder": "alex.reporter@example.com" },
+      { "name": "problemArea", "label": "Area of Law / Jurisdiction", "type": "text", "required": true, "placeholder": "e.g., Family Law in Kenya, Tenancy disputes in Berlin" },
+      { "name": "description", "label": "Problem Description", "type": "textarea", "required": true, "placeholder": "Describe the challenge in detail. Who is affected? What are the current obstacles?" }
+    ]
+  },
+  {
+    "id": "ideas",
+    "title": "Contribute Ideas",
+    "description": "Thank you for your interest in sharing innovative solutions. Please fill out the form below to contribute.",
+    "fields": [
+      { "name": "name", "label": "Full Name", "type": "text", "required": true, "placeholder": "Jane Innovator" },
+      { "name": "email", "label": "Email Address", "type": "email", "required": true, "placeholder": "jane.innovator@example.com" },
+      { "name": "title", "label": "Idea Title", "type": "text", "required": true, "placeholder": "e.g., AI-Powered Legal Assistant for Refugees" },
+      { "name": "description", "label": "Idea Description", "type": "textarea", "required": true, "placeholder": "Describe your idea in detail. What problem does it solve? Who does it help?" }
+    ]
+  },
+  {
+    "id": "connections",
+    "title": "Contribute Connections",
+    "description": "Introduce us to key stakeholders in the legal tech ecosystem. Please provide their details below.",
+    "fields": [
+      { "name": "yourName", "label": "Your Name", "type": "text", "required": true, "placeholder": "Sam Connector" },
+      { "name": "yourEmail", "label": "Your Email", "type": "email", "required": true, "placeholder": "sam.connector@example.com" },
+      { "name": "connectionName", "label": "Connection's Name", "type": "text", "required": true, "placeholder": "Dr. Evelyn Reed" },
+      { "name": "connectionContact", "label": "Connection's Contact", "type": "text", "required": true, "placeholder": "Email or LinkedIn profile" },
+      { "name": "reason", "label": "Reason for Connection", "type": "textarea", "required": true, "placeholder": "Briefly explain why you think we should connect." }
+    ]
+  }
+]

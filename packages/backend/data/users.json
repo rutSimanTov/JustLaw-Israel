@@ -1,0 +1,52 @@
+[
+  {
+    "id": "",
+    "username": "Nava Lederman",
+    "email": "led054847@gmail.com",
+    "passwordHash": "NAVAleder123!",
+    "googleId": "115706051658927690416",
+    "role": "user",
+    "createdAt": "2025-06-25T09:14:03.937Z",
+    "updatedAt": "2025-06-29T10:55:45.396Z"
+  },
+  {
+    "id": "",
+    "username": "יחיאל לדרמן",
+    "email": "yechiel2828@gmail.com",
+    "passwordHash": "123456",
+    "googleId": "114799112682660163830",
+    "role": "user",
+    "createdAt": "2025-06-25T11:41:06.567Z",
+    "updatedAt": "2025-06-26T11:24:32.850Z"
+  },
+  {
+    "id": "",
+    "username": "yona",
+    "email": "yonal5767@gmail.com",
+    "passwordHash": "YONAlederman100!",
+    "googleId": "",
+    "role": "user",
+    "createdAt": "2025-06-29T10:18:29.738Z",
+    "updatedAt": "2025-06-29T10:18:29.738Z"
+  },
+  {
+    "id": "",
+    "email": "nava.lederman11@gmail.com",
+    "username": "NAVA_ LEDERMAN_",
+    "passwordHash": "LEDnava123!",
+    "googleId": "110556625312709464038",
+    "role": "user",
+    "createdAt": "2025-06-29T10:29:30.935Z",
+    "updatedAt": "2025-06-29T10:50:48.789Z"
+  },
+  {
+    "id": "",
+    "email": "mirid23238@gmail.com",
+    "username": "מירי",
+    "passwordHash": "mirid23238@gmail.com",
+    "googleId": "103383188973107964777",
+    "role": "user",
+    "createdAt": "2025-07-03T07:22:56.627Z",
+    "updatedAt": "2025-07-03T07:22:56.627Z"
+  }
+]

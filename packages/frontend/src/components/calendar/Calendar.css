@@ -1,0 +1,342 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #ff338f;
+  --error-color: #ff5a5f;
+  --text-color: hsl(211.4 67.8% 18%);
+  --secondary-text: #718096;
+  --disabled-text: #cbd5e0;
+  --background-hover: #edf2f7;
+  --range-background: #ebf8ff;
+  --range-hover: #bee3f8;
+  --today-border: #68d391;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.calendar-container {
+  margin: 30px auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  max-width: 340px;
+  width: 100%;
+  font-family: Fira Code, monospace;
+}
+
+.calendar-header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.calendar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+  letter-spacing: 0.025em;
+}
+
+.calendar-title::first-letter {
+  text-transform: uppercase;
+}
+
+.calendar-nav {
+  display: flex;
+  gap: 12px;
+}
+
+.calendar-nav-button {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--secondary-text);
+  border-radius: 8px;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.calendar-nav-button:hover {
+  background-color: var(--background-hover);
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.calendar-grid {
+  padding: 0 10px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+
+}
+
+.calendar-day-header {
+  text-align: center;
+  font-size: 13px;
+  color: var(--secondary-text);
+  padding: 8px 0;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.calendar-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: var(--transition);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  margin: 2px auto;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  transition:
+    all 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-radius 0.3s ease,
+    background-color 0.3s ease;
+  transform-origin: center;
+  will-change: transform, border-radius, background-color;
+}
+
+.calendar-day:hover {
+  background-color: var(--background-hover);
+
+}
+
+.calendar-day.selected {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+
+}
+
+.calendar-day.in-range {
+  border-radius: 0;
+  background-color: var(--range-background);
+  color: var(--primary-color);
+  transition:
+    background-color 0.3s ease,
+    border-radius 0.3s ease,
+    color 0.3s ease;
+  animation: scaleIn 0.3s ease-out forwards;
+}
+
+.calendar-day.in-range:hover {
+  background-color: var(--range-hover);
+}
+
+.calendar-day.range-start {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 25% 0 0 25%;
+  animation: scaleStart 0.3s ease-out forwards;
+}
+
+.calendar-day.range-end {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 0 25% 25% 0;
+  animation: scaleEnd 0.3s ease-out forwards;
+}
+
+.calendar-day.weekend {
+  color: var(--error-color);
+}
+
+.calendar-day.weekend:hover {
+  background-color: rgba(255, 90, 95, 0.1);
+}
+
+.calendar-day.weekend.selected,
+.calendar-day.weekend.range-start,
+.calendar-day.weekend.range-end {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.calendar-day.weekend.in-range {
+  background-color: rgba(255, 90, 95, 0.1);
+  color: var(--error-color);
+}
+
+.calendar-day.today {
+  border: 2px solid var(--primary-color);
+  font-weight: 600;
+}
+
+.calendar-day.today.weekend {
+  border-color: var(--error-color);
+}
+
+.calendar-day.today.in-range {
+  border-color: var(--primary-color);
+}
+
+.calendar-day.other-month {
+  color: var(--disabled-text);
+  opacity: 0.7;
+}
+
+.calendar-day.other-month.weekend {
+  color: rgba(255, 90, 95, 0.4);
+}
+
+.calendar-day.other-month.in-range {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--disabled-text);
+}
+
+.calendar-day.other-month.weekend.in-range {
+  background-color: rgba(255, 90, 95, 0.1);
+}
+
+.event-indicators {
+  position: absolute;
+  bottom: 16%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+.event-dot {
+  width: 3px;
+  height: 3px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.event-more {
+  font-size: 9px;
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+.calendar-day.selected .event-dot,
+.calendar-day.range-start .event-dot,
+.calendar-day.range-end .event-dot,
+.calendar-day.in-range .event-dot {
+  background-color: white;
+}
+
+.calendar-day.weekend .event-dot,
+.calendar-day.weekend.in-range .event-dot {
+  background-color: var(--error-color);
+}
+
+.calendar-day.other-month .event-dot {
+  background-color: var(--disabled-text);
+}
+
+.calendar-day.other-month.weekend .event-dot {
+  background-color: rgba(255, 90, 95, 0.4);
+}
+
+.calendar-day.selected.in-range.weekend .event-dot {
+  background: var(--error-color);
+}
+
+.calendar-day.selected.in-range .event-dot {
+  background: var(--primary-color);
+}
+
+.calendar-day.in-range {
+  animation: scaleIn 0.3s ease-out forwards;
+}
+
+.calendar-day:not(.in-range):not(.range-start):not(.range-end) {
+  animation: scaleOut 0.3s ease-in forwards;
+}
+
+.calendar-day.range-start {
+  animation: scaleStart 0.3s ease-out forwards;
+}
+
+.calendar-day.range-end {
+  animation: scaleEnd 0.3s ease-out forwards;
+}
+
+@keyframes scaleIn {
+  0% {
+    border-radius: 50%;
+    transform: scale(0.95);
+  }
+
+  100% {
+    border-radius: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  0% {
+    border-radius: 0;
+    transform: scale(1);
+  }
+
+  100% {
+    border-radius: 50%;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes scaleStart {
+  0% {
+    border-radius: 50%;
+    transform: scale(0.95);
+  }
+
+  50% {
+    border-radius: 0;
+    transform: scale(1.05);
+  }
+
+  100% {
+    border-radius: 25% 0 0 25%;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleEnd {
+  0% {
+    border-radius: 50%;
+    transform: scale(0.95);
+  }
+
+  50% {
+    border-radius: 0;
+    transform: scale(1.05);
+  }
+
+  100% {
+    border-radius: 0 25% 25% 0;
+    transform: scale(1);
+  }
+}
+
+.event-dot {
+  transition: all 0.3s ease;
+}
+
+.calendar-day:hover {
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
