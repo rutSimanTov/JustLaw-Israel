@@ -2,18 +2,18 @@
 
 A comprehensive justicetech ecosystem platform designed to connect legal professionals, entrepreneurs, and justice advocates through profiles, accelerator programs, and knowledge sharing.
 
-## Project Overview 🎥📖
+## Project Overview 📖
 
 JustLaw Israel facilitates community building in the justicetech space by providing professional networking, structured accelerator programs, and a curated knowledge repository. The platform connects users through customizable profiles, manages cohort-based accelerator applications, and serves as a central hub for justicetech resources and events.
 
-## Key Components
+## Key Components 🛠️
 
 - **Backend API:** Node TypeScript service deployed on Render
 - **Frontend Application:** React TypeScript application deployed on Netlify  
 - **Database:** Supabase PostgreSQL
 - **Integrations:** Google OAuth, Google Calendar, Zoom, LinkedIn
 
-## Team Structure
+## Team Structure 
 
 The project is developed collaboratively by two companies, each handling specialized feature sets:
 
