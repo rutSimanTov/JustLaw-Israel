@@ -1,4 +1,4 @@
-# JustLaw Israel - JusticeTech Ecosystem Platform
+# JustLaw Israel - JusticeTech Ecosystem Platform 
 
 A comprehensive justicetech ecosystem platform designed to connect legal professionals, entrepreneurs, and justice advocates through profiles, accelerator programs, and knowledge sharing.
 
@@ -13,7 +13,7 @@ JustLaw Israel facilitates community building in the justicetech space by provid
 - **Database:** Supabase PostgreSQL
 - **Integrations:** Google OAuth, Google Calendar, Zoom, LinkedIn
 
-## Team Structure 
+## Team Structure 🎯
 
 The project is developed collaboratively by two companies, each handling specialized feature sets:
 
@@ -121,7 +121,7 @@ npm run dev:frontend
 2. Run migration scripts: `npm run db:migrate`
 3. Update environment variables with Supabase connection details
 
-## Contributing
+## Contributing 🎁
 
 ### Development Workflow
 - **API-First Approach:** Week 1 focuses on API contracts and mock implementations
@@ -135,7 +135,7 @@ npm run dev:frontend
 3. Push to branch: `git push origin feature/team-1-profile-creation`
 4. Submit a pull request to `develop` branch
 
-## Timeline
+## Timeline ⌛
 
 **8 weeks total:**
 - Week 1: API contracts and setup
