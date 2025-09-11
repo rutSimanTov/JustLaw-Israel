@@ -29,7 +29,7 @@ _Focus:  Administrative systems and core infrastructure_
 3. **Accelerator Program Team:** Application workflow, Google Calendar, events, and Zoom integration
 4. **Infrastructure Team:** Main website, admin dashboard, donation system, and shared components
 
-## Documentation
+## Documentation 📑
 
 ### Project Documentation
 - [Main Project Document](https://docs.google.com/document/d/1bV6V7-efPyCAex9npd1aAYTCMa3IzPlI0L45b3wE644) - System architecture, user roles, technical overview, and wireframes
@@ -50,7 +50,7 @@ _Focus:  Administrative systems and core infrastructure_
 ### API Documentation
 The API documentation is generated from the TypeScript definitions. Core endpoints include authentication, profiles, accelerator applications, content management, and admin functions.
 
-## Project Structure
+## Project Structure 🗂️
 
 ```
 justlaw-israel/
@@ -61,7 +61,7 @@ justlaw-israel/
 └── README.md
 ```
 
-## Development Setup
+## Development Setup ⚙️
 
 ### Prerequisites
 - Node.js 18+
@@ -142,6 +142,6 @@ npm run dev:frontend
 - Weeks 2-6: Feature development
 - Weeks 7-8: Testing, deployment, and documentation
 
-## License
+## License 📋
 
 This project is private and proprietary. Unauthorized copying, distribution, or use is strictly prohibited.
