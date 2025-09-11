@@ -1,4 +1,4 @@
-# JustLaw Israel - JusticeTech Ecosystem Platform 
+# JustLaw Israel - JusticeTech Ecosystem Platform ⚖️
 
 A comprehensive justicetech ecosystem platform designed to connect legal professionals, entrepreneurs, and justice advocates through profiles, accelerator programs, and knowledge sharing.
 
