@@ -13,7 +13,7 @@ JustLaw Israel facilitates community building in the justicetech space by provid
 - **Database:** Supabase PostgreSQL
 - **Integrations:** Google OAuth, Google Calendar, Zoom, LinkedIn
 
-## Team Structure 🎯
+## Team Structure 🚀
 
 The project is developed collaboratively by two companies, each handling specialized feature sets:
 
@@ -102,7 +102,7 @@ npm run dev:frontend
 - Frontend: http://localhost:3001
 - Backend API: http://localhost:3000/api
 
-## Deployment
+## Deployment ☁️
 
 ### Backend (Render)
 1. Connect your Render account to the GitHub repository
