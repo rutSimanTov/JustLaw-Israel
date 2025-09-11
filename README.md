@@ -11,7 +11,7 @@ JustLaw Israel facilitates community building in the justicetech space by provid
 - **Backend API:** Node TypeScript service deployed on Render
 - **Frontend Application:** React TypeScript application deployed on Netlify  
 - **Database:** Supabase PostgreSQL
-- **Integrations:** Google OAuth, Google Calendar, Zoom, LinkedIn
+- **Integrations:** Google Meet, Google Calendar, PayPal
 
 ## Team Structure 🚀
 
