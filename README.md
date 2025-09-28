@@ -21,7 +21,7 @@ The project is developed collaboratively by two companies, each handling special
 _Focus: External user experience and public-facing features_
 
 1. **Profile Management Team:** User registration, profiles, search, and LinkedIn integration
-2. **Knowledge Hub Team:** Content management, categorization, search, and publishing workflow
+2. **Knowledge Hub Team:** Content management, categorization, search, and publishing workflow.
 
 ### Company B: Program Management & Infrastructure
 _Focus:  Administrative systems and core infrastructure_
